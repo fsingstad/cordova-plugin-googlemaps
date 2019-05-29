@@ -50,7 +50,7 @@ var MarkerCluster = function (map, markerClusterOptions, _exec) {
   });
   Object.defineProperty(self, 'MAX_RESOLUTION', {
     enumerable: false,
-    value: 11,
+    value: 15,
     writable: false
   });
   Object.defineProperty(self, 'OUT_OF_RESOLUTION', {
@@ -514,9 +514,10 @@ Object.defineProperty(MarkerCluster.prototype, '_redraw', {
     var nwCell = geomodel.getGeocell(expandedRegion.northeast.lat, expandedRegion.southwest.lng, cellLen);
     var seCell = geomodel.getGeocell(expandedRegion.southwest.lat, expandedRegion.northeast.lng, cellLen);
 
-    if (currentZoomLevel > 21 || resolution === 0) {
+    if (currentZoomLevel >= 21 || resolution === 0) {
       console.log('currentZoomLevel: '+currentZoomLevel+', maxZoomLevel: '+self.maxZoomLevel+', resolution: '+resolution);
-      resolution = self.OUT_OF_RESOLUTION;
+      //resolution = self.OUT_OF_RESOLUTION;
+      resolution = 15;
     }
     self.set('resolution', resolution);
     //console.log('--->prevResolution = ' + prevResolution + ', resolution = ' + resolution);
