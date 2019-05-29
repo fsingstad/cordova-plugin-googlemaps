@@ -515,6 +515,7 @@ Object.defineProperty(MarkerCluster.prototype, '_redraw', {
     var seCell = geomodel.getGeocell(expandedRegion.southwest.lat, expandedRegion.northeast.lng, cellLen);
 
     if (currentZoomLevel > self.maxZoomLevel || resolution === 0) {
+      console.log('currentZoomLevel: '+currentZoomLevel+', maxZoomLevel: '+self.maxZoomLevel+', resolution: '+resolution);
       resolution = self.OUT_OF_RESOLUTION;
     }
     self.set('resolution', resolution);
