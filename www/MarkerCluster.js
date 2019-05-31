@@ -518,7 +518,7 @@ Object.defineProperty(MarkerCluster.prototype, '_redraw', {
     if (currentZoomLevel >= 20 || resolution === 0) {
 
       //resolution = self.OUT_OF_RESOLUTION;
-      resolution = 8;
+      resolution = 20;
     }
     self.set('resolution', resolution);
     //console.log('--->prevResolution = ' + prevResolution + ', resolution = ' + resolution);
