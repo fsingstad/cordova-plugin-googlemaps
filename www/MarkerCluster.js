@@ -483,7 +483,7 @@ Object.defineProperty(MarkerCluster.prototype, '_redraw', {
     resolution = self.maxZoomLevel > 11 && currentZoomLevel > 11 ? 6 : resolution;
     resolution = self.maxZoomLevel > 13 && currentZoomLevel > 13 ? 7 : resolution;
     resolution = self.maxZoomLevel > 15 && currentZoomLevel > 15 ? 9 : resolution;
-    resolution = self.maxZoomLevel > 17 && currentZoomLevel > 17 ? 200 : resolution;
+    resolution = self.maxZoomLevel > 17 && currentZoomLevel > 17 ? 800 : resolution;
     resolution = self.maxZoomLevel > 19 && currentZoomLevel > 19 ? 15 : resolution;
     resolution = self.maxZoomLevel > 21 && currentZoomLevel > 21 ? 20 : resolution;
 
@@ -518,7 +518,7 @@ Object.defineProperty(MarkerCluster.prototype, '_redraw', {
     if (currentZoomLevel >= 20 || resolution === 0) {
 
       //resolution = self.OUT_OF_RESOLUTION;
-      resolution = 500;
+      resolution = 800;
     }
     self.set('resolution', resolution);
     //console.log('--->prevResolution = ' + prevResolution + ', resolution = ' + resolution);
