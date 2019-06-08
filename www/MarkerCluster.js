@@ -129,6 +129,7 @@ var MarkerCluster = function (map, markerClusterOptions, _exec) {
 
     markerOptions = common.markerOptionsFilter(markerOptions);
     var geocell = geomodel.getGeocell(markerOptions.position.lat, markerOptions.position.lng, self.MAX_RESOLUTION + 1);
+    console.log("geomodel.getGeocell("+markerOptions.position.lat+", "+markerOptions.position.lng+", "+(self.MAX_RESOLUTION + 1)+");");
 
     markerOptions._cluster = {
       isRemoved: false,
