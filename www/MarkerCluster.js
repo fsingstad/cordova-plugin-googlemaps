@@ -50,7 +50,7 @@ var MarkerCluster = function (map, markerClusterOptions, _exec) {
   });
   Object.defineProperty(self, 'MAX_RESOLUTION', {
     enumerable: false,
-    value: 50,
+    value: 100,
     writable: false
   });
   Object.defineProperty(self, 'OUT_OF_RESOLUTION', {
@@ -484,9 +484,9 @@ Object.defineProperty(MarkerCluster.prototype, '_redraw', {
     resolution = self.maxZoomLevel > 11 && currentZoomLevel > 11 ? 6 : resolution;
     resolution = self.maxZoomLevel > 13 && currentZoomLevel > 13 ? 7 : resolution;
     resolution = self.maxZoomLevel > 15 && currentZoomLevel > 15 ? 9 : resolution;
-    resolution = self.maxZoomLevel > 17 && currentZoomLevel > 17 ? 20 : resolution;
-    resolution = self.maxZoomLevel > 19 && currentZoomLevel > 19 ? 35 : resolution;
-    resolution = self.maxZoomLevel > 21 && currentZoomLevel > 21 ? 50 : resolution;
+    resolution = self.maxZoomLevel > 17 && currentZoomLevel > 17 ? 50 : resolution;
+    resolution = self.maxZoomLevel > 19 && currentZoomLevel > 19 ? 75 : resolution;
+    resolution = self.maxZoomLevel > 21 && currentZoomLevel > 21 ? 100 : resolution;
 
     //------------------------------------------------------------------------
     // If the current viewport contains the previous viewport,
