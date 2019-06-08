@@ -1365,7 +1365,7 @@ Map.prototype.addMarkerCluster = function(markerClusterOptions, callback) {
     'icons': markerClusterOptions.icons,
     //'markerMap': markerMap,
     'idxCount': positionList.length + 1,
-    'maxZoomLevel': Math.min(markerClusterOptions.maxZoomLevel || 15, 18),
+    'maxZoomLevel': Math.min(markerClusterOptions.maxZoomLevel || 15, 21),
     'debug': markerClusterOptions.debug === true,
     'boundsDraw': common.defaultTrueOption(markerClusterOptions.boundsDraw)
   }, exec);
