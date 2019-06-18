@@ -735,6 +735,7 @@ Object.defineProperty(MarkerCluster.prototype, '_redraw', {
         console.log('zooming in')
         keys = Object.keys(self._clusters[prevResolution]);
         keys.forEach(function (geocell) {
+          console.log(geocell)
           if (self._isRemoved) {
             return;
           }
