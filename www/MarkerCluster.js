@@ -948,7 +948,7 @@ Object.defineProperty(MarkerCluster.prototype, '_redraw', {
           for (j = i + 1; j < sortedClusters.length; j++) {
             anotherCluster = sortedClusters[j];
             distance = spherical.computeDistanceBetween(cluster._markerCenter, anotherCluster._markerCenter);
-            if (distance < params.clusterDistance) {
+            if (distance < params.clusterDistance && currentZoomLevel < 17) {
               if (self.debug) {
                 console.log('---> (js:763)delete:' + anotherCluster.geocell);
               }
