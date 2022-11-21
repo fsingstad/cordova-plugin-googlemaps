@@ -8,11 +8,11 @@ repositories {
 }
 
 dependencies {
-  compile(name:'tbxml-android', ext:'aar')
+  implement(name:'tbxml-android', ext:'aar')
 }
 
 android {
-  compileSdkVersion 26
+  compileSdkVersion 30
 
   packagingOptions {
     exclude 'README'
