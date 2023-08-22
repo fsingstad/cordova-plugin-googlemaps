@@ -476,7 +476,7 @@
         <source url="https://github.com/CocoaPods/Specs.git"/>
       </config>
       <pods>
-        <pod name="GoogleMaps" spec="~> 3.1.0"/>
+        <pod name="GoogleMaps" spec="7.4.0"/>
       </pods>
     </podspec>
     
