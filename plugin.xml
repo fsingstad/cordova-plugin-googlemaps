@@ -441,13 +441,13 @@
     <!-- localized messages for Vietnamese -->
     <resource-file src="src/ios/strings/pgm_Localizable_vi.json" target="pgm_Localizable_vi.json"/>
 
-    <config-file target="*-Info.plist" parent="NSLocationWhenInUseUsageDescription">
+    <!--config-file target="*-Info.plist" parent="NSLocationWhenInUseUsageDescription">
       <string>$LOCATION_WHEN_IN_USE_DESCRIPTION</string>
     </config-file>
 
     <config-file target="*-Info.plist" parent="NSLocationAlwaysUsageDescription">
       <string>$LOCATION_ALWAYS_USAGE_DESCRIPTION</string>
-    </config-file>
+    </config-file-->
 
     <config-file target="*-Info.plist" parent="LSApplicationQueriesSchemes">
       <array>
