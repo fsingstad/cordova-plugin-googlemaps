@@ -1,12 +1,12 @@
 package plugin.google.maps;
 
-import android.util.LruCache;
+import androidx.collection.LruCache;
 
 import java.util.HashSet;
 
 public class ObjectCache {
   public final HashSet<String> keys = new HashSet<String>();
-  private LruCache<String, Object> objects = new LruCache<String, Object>(10000);
+  private LruCache<String, Object> objects = new LruCache<String, Object>(1024 * 1024 * 10);
 
   public boolean containsKey(String key) {
     return keys.contains(key);

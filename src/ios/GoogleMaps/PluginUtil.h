@@ -6,9 +6,6 @@
 //
 //
 
-#ifndef MIN
-#import <NSObjCRuntime.h>
-#endif
 #import <Foundation/Foundation.h>
 #import <Cordova/CDV.h>
 #import "MainViewController.h"
@@ -19,8 +16,8 @@
 #import <math.h>
 #import "IPluginProtocol.h"
 #import "PluginViewController.h"
+#import "PluginCAAnimationDelegate.h"
 #import <Cordova/CDVCommandDelegate.h>
-#import <Cordova/CDVCommandDelegateImpl.h>
 
 typedef void (^MYCompletionHandler)(NSError *error);
 
@@ -49,21 +46,6 @@ typedef void (^MYCompletionHandler)(NSError *error);
 - (UIImage *)resize:(CGFloat)width height:(CGFloat)height;
 @end
 
-@interface CDVCommandDelegateImpl (GoogleMapsPlugin)
-- (void)hookSendPluginResult:(CDVPluginResult*)result callbackId:(NSString*)callbackId;
-@end
-
-
-
-//
-// animationDidStop for group animation
-// http://stackoverflow.com/a/28051909/697856
-//
-typedef void (^TIFAnimationGroupCompletionBlock)();
-@interface CAAnimationGroup (Blocks)
-- (void)setCompletionBlock:(TIFAnimationGroupCompletionBlock)handler;
-@end
-
 
 @interface PluginUtil : NSObject
 + (BOOL)isPolygonContains:(GMSPath *)path coordinate:(CLLocationCoordinate2D)coordinate projection:(GMSProjection *)projection;
@@ -74,6 +56,11 @@ typedef void (^TIFAnimationGroupCompletionBlock)();
 + (GMSMutablePath *)getMutablePathFromCircle:(CLLocationCoordinate2D)center radius:(double)radius;
 + (NSString *)getAbsolutePathFromCDVFilePath:(UIView*)theWebView cdvFilePath:(NSString *)cdvFilePath;
 + (NSString *)PGM_LOCALIZATION:(NSString *)key;
++ (void)getJsonWithURL:(NSString *)baseUrlStr params:(NSDictionary *)params completionBlock:(void (^)(BOOL succeeded, NSDictionary *response, NSString *error))completionBlock;
++ (void)getJsonWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, NSDictionary *response, NSString *error))completionBlock;
++ (double)getZoomFromBounds:(GMSCoordinateBounds *)bounds mapWidth:(double)mapWidth mapHeight:(double)mapHeight;
++ (double)_zoom:(double)mapPx worldPx:(double)worldPx fraction:(double)fraction;
++ (double)_latRad:(double)lat;
 @end
 
 

@@ -2,8 +2,6 @@
 <plugin id="cordova-plugin-googlemaps" version="2.6.2" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
   <name>cordova-plugin-googlemaps</name>
   <js-module name="Promise" src="www/Promise.js" />
-  <asset src="www/promise-7.0.4.min.js.map" target="promise-7.0.4.min.js.map" />
-  <asset src="www/promise-7.0.4.min.js.map" target="plugins/cordova-plugin-googlemaps/www/promise-7.0.4.min.js.map" />
   <js-module name="BaseClass" src="www/BaseClass.js">
     <runs/>
   </js-module>
@@ -64,6 +62,15 @@
   <js-module name="LocationService" src="www/LocationService.js">
     <runs/>
   </js-module>
+  <js-module name="ElevationService" src="www/ElevationService.js">
+    <runs/>
+  </js-module>
+  <js-module name="DirectionsService" src="www/DirectionsService.js">
+    <runs/>
+  </js-module>
+  <js-module name="DirectionsRenderer" src="www/DirectionsRenderer.js">
+    <runs/>
+  </js-module>
   <js-module name="Map" src="www/Map.js">
     <runs/>
   </js-module>
@@ -114,27 +121,16 @@
 
   This plugin works in browser application as well. One code for Android, iOS, and browsers!
   </description>
-  <repo>https://github.com/mapsplugin/cordova-plugin-googlemaps.git</repo>
-  <issue>https://github.com/mapsplugin/cordova-plugin-googlemaps/issues</issue>
+  <repo>https://github.com/GitToTheHub/cordova-plugin-googlemaps.git</repo>
+  <issue>https://github.com/GitToTheHub/cordova-plugin-googlemaps/issues</issue>
   <author>Masashi Katsumata, Hirbod</author>
 
   <license>Apache-2.0</license>
 
   <keywords>google,maps,geo</keywords>
 
-  <engines>
-    <engine name="cordova" version=">=7.0.0" />
-    <engine name="cordova-ios" version=">=4.5.0" />
-    <engine name="apple-xcode" version=">=9.0.0" />
-    <engine name="apple-ios" version=">=10.0.0" />
-  </engines>
-
   <!-- android -->
   <platform name="android">
-    <info>
-      Official document https://github.com/mapsplugin/cordova-plugin-googlemaps-doc/blob/master/v2.3.0/README.md Please consider to buy a beer for us 🍺 https://github.com/mapsplugin/cordova-plugin-googlemaps#buy-us-a-beer
-    </info>
-
     <js-module name="googlemaps-cdv-plugin" src="www/plugin-loader-for-android_ios.js">
       <clobbers target="plugin.google.maps"/>
     </js-module>
@@ -145,10 +141,9 @@
     <config-file target="config.xml" parent="/*">
       <!-- for Crosswalk -->
       <preference name="xwalkZOrderOnTop" value="true"/>
-      <preference name="BackgroundColor" value="0"/>
 
       <!-- for this plugin -->
-      <preference name="android-minSdkVersion" value="19"/>
+      <preference name="android-minSdkVersion" value="21"/>
     </config-file>
 
     <config-file target="res/xml/config.xml" parent="/*">
@@ -184,6 +179,12 @@
       <feature name="PluginGeocoder">
         <param name="android-package" value="plugin.google.maps.PluginGeocoder"/>
       </feature>
+      <feature name="PluginElevationService">
+        <param name="android-package" value="plugin.google.maps.PluginElevationService"/>
+      </feature>
+      <feature name="PluginDirectionsService">
+        <param name="android-package" value="plugin.google.maps.PluginDirectionsService"/>
+      </feature>
       <feature name="PluginLocationService">
         <param name="android-package" value="plugin.google.maps.PluginLocationService"/>
       </feature>
@@ -198,6 +199,8 @@
       </feature>
     </config-file>
 
+    <source-file src="src/android/plugin/google/maps/AsyncGetJsonWithURL.java" target-dir="src/plugin/google/maps"/>
+    <source-file src="src/android/plugin/google/maps/AsyncHttpGetInterface.java" target-dir="src/plugin/google/maps"/>
     <source-file src="src/android/plugin/google/maps/AsyncLoadImage.java" target-dir="src/plugin/google/maps"/>
     <source-file src="src/android/plugin/google/maps/AsyncLoadImageInterface.java" target-dir="src/plugin/google/maps"/>
     <source-file src="src/android/plugin/google/maps/PluginEnvironment.java" target-dir="src/plugin/google/maps"/>
@@ -208,6 +211,8 @@
     <source-file src="src/android/plugin/google/maps/MyPluginInterface.java" target-dir="src/plugin/google/maps"/>
     <source-file src="src/android/plugin/google/maps/PluginCircle.java" target-dir="src/plugin/google/maps"/>
     <source-file src="src/android/plugin/google/maps/PluginGeocoder.java" target-dir="src/plugin/google/maps"/>
+    <source-file src="src/android/plugin/google/maps/PluginElevationService.java" target-dir="src/plugin/google/maps"/>
+    <source-file src="src/android/plugin/google/maps/PluginDirectionsService.java" target-dir="src/plugin/google/maps"/>
     <source-file src="src/android/plugin/google/maps/PluginLocationService.java" target-dir="src/plugin/google/maps"/>
     <source-file src="src/android/plugin/google/maps/PluginGroundOverlay.java" target-dir="src/plugin/google/maps"/>
     <source-file src="src/android/plugin/google/maps/PluginKmlOverlay.java" target-dir="src/plugin/google/maps"/>
@@ -224,12 +229,11 @@
     <source-file src="src/android/plugin/google/maps/PluginStreetViewPanorama.java" target-dir="src/plugin/google/maps"/>
     <source-file src="src/android/plugin/google/maps/IPluginView.java" target-dir="src/plugin/google/maps"/>
 
-    <framework src="src/android/frameworks/tbxml-android.gradle" custom="true" type="gradleReference"/>
+    <!-- Import tbxml-android. This is used for reading KML files in PluginKmlOverlay.java -->
     <resource-file src="src/android/frameworks/tbxml-android.aar" target="libs/tbxml-android.aar"/>
-    <resource-file src="src/android/frameworks/tbxml-android.aar" target="app/src/libs/tbxml-android.aar"/>
+    <framework src="src/android/frameworks/tbxml-android.gradle" custom="true" type="gradleReference"/>
 
-
-    <framework src="src/android/frameworks/apikey.gradle" custom="true" type="gradleReference"/>
+    <framework src="src/android/frameworks/pgm-custom.gradle" custom="true" type="gradleReference"/>
 
     <config-file target="AndroidManifest.xml" parent="/manifest/application">
       <meta-data android:name="com.google.android.geo.API_KEY" android:value="${GOOGLE_MAPS_ANDROID_API_KEY}"/>
@@ -249,21 +253,12 @@
       <uses-feature android:glEsVersion="0x00020000" android:required="true"/>
       <!-- GPS -->
       <uses-feature android:name="android.hardware.location"/>
-      <!--uses-feature android:name="android.hardware.location.gps"/-->
+      <uses-feature android:name="android.hardware.location.gps"/>
     </config-file>
 
     <resource-file src="src/android/res/layout/dummy_infowindow.xml" target="res/layout/dummy_infowindow.xml"/>
     <resource-file src="src/android/res/drawable/dummy_my_location_button.png" target="res/drawable/dummy_my_location_button.png"/>
     <resource-file src="src/android/res/drawable/dummy_mylocation_button_shadow.xml" target="res/drawable/dummy_mylocation_button_shadow.xml"/>
-
-    <!-- Minimum required version of Google Play Services SDK for this plugin is 12.0.1. You need to specify this version number for all other plugins that use google play services sdk. https://developers.google.com/android/guides/releases -->
-    <preference name="PLAY_SERVICES_VERSION" default="15.0.1"/>
-    <framework src="com.google.android.gms:play-services-maps:$PLAY_SERVICES_VERSION"/>
-    <framework src="com.google.android.gms:play-services-location:$PLAY_SERVICES_VERSION"/>
-
-    <!-- Minimum required version of Android Support library v4 for this plugin. https://developers.google.com/android/guides/releases -->
-    <preference name="ANDROID_SUPPORT_V4_VERSION" default="27.+"/>
-    <framework src="com.android.support:support-core-utils:$ANDROID_SUPPORT_V4_VERSION"/>
 
     <!-- Base messages -->
     <resource-file src="src/android/res/values/pgm_strings.xml" target="res/values/pgm_strings.xml"/>
@@ -293,6 +288,7 @@
     <resource-file src="src/android/res/values-da/pgm_strings.xml" target="res/values-da/pgm_strings.xml"/>
     <!-- localized messages for Vietnamese -->
     <resource-file src="src/android/res/values-vi/pgm_strings.xml" target="res/values-vi/pgm_strings.xml"/>
+
   </platform>
 
   <!-- ios -->
@@ -308,10 +304,6 @@
       <runs/>
     </js-module>
 
-    <info>
-      Official document https://github.com/mapsplugin/cordova-plugin-googlemaps-doc/blob/master/v2.3.0/README.md Please consider to buy a beer for us 🍺 https://github.com/mapsplugin/cordova-plugin-googlemaps#buy-us-a-beer
-    </info>
-
     <config-file target="config.xml" parent="/*">
       <feature name="CordovaGoogleMaps">
         <param name="ios-package" value="CordovaGoogleMaps"/>
@@ -326,6 +318,12 @@
       </feature>
       <feature name="PluginLocationService">
         <param name="ios-package" value="PluginLocationService"/>
+      </feature>
+      <feature name="PluginElevationService">
+        <param name="ios-package" value="PluginElevationService"/>
+      </feature>
+      <feature name="PluginDirectionsService">
+        <param name="ios-package" value="PluginDirectionsService"/>
       </feature>
       <feature name="PluginMap">
         <param name="ios-package" value="PluginMap"/>
@@ -361,12 +359,18 @@
 
     <header-file src="src/ios/GoogleMaps/PluginObjects.h"/>
     <source-file src="src/ios/GoogleMaps/PluginObjects.m"/>
+    <header-file src="src/ios/GoogleMaps/PluginCAAnimationDelegate.h"/>
+    <source-file src="src/ios/GoogleMaps/PluginCAAnimationDelegate.m"/>
     <header-file src="src/ios/GoogleMaps/PluginCircle.h"/>
     <source-file src="src/ios/GoogleMaps/PluginCircle.m"/>
     <header-file src="src/ios/GoogleMaps/PluginGeocoder.h"/>
     <source-file src="src/ios/GoogleMaps/PluginGeocoder.m"/>
     <header-file src="src/ios/GoogleMaps/PluginLocationService.h"/>
     <source-file src="src/ios/GoogleMaps/PluginLocationService.m"/>
+    <header-file src="src/ios/GoogleMaps/PluginElevationService.h"/>
+    <source-file src="src/ios/GoogleMaps/PluginElevationService.m"/>
+    <header-file src="src/ios/GoogleMaps/PluginDirectionsService.h"/>
+    <source-file src="src/ios/GoogleMaps/PluginDirectionsService.m"/>
     <header-file src="src/ios/GoogleMaps/PluginEnvironment.h"/>
     <source-file src="src/ios/GoogleMaps/PluginEnvironment.m"/>
     <header-file src="src/ios/GoogleMaps/CordovaGoogleMaps.h"/>
@@ -441,13 +445,13 @@
     <!-- localized messages for Vietnamese -->
     <resource-file src="src/ios/strings/pgm_Localizable_vi.json" target="pgm_Localizable_vi.json"/>
 
-    <!--config-file target="*-Info.plist" parent="NSLocationWhenInUseUsageDescription">
+    <config-file target="*-Info.plist" parent="NSLocationWhenInUseUsageDescription">
       <string>$LOCATION_WHEN_IN_USE_DESCRIPTION</string>
     </config-file>
 
     <config-file target="*-Info.plist" parent="NSLocationAlwaysUsageDescription">
       <string>$LOCATION_ALWAYS_USAGE_DESCRIPTION</string>
-    </config-file-->
+    </config-file>
 
     <config-file target="*-Info.plist" parent="LSApplicationQueriesSchemes">
       <array>
@@ -471,25 +475,35 @@
       </array>
     </config-file>
 
+
+    <!--
+      Google Maps SDK for iOS 10.0.0 needs minimum a deployment target of iOS 16
+      This will only take effect, if the user does not specify the deployment target
+      in the config.xml.
+      If the deployment target is lower, there will be an error when adding this plugin:
+      Specs satisfying the `GoogleMaps (~> 10.0.0)` dependency were found, but they required a higher minimum deployment target.
+    -->
+    <config-file target="config.xml" parent="/*">
+        <preference name="deployment-target" value="16.0" />
+    </config-file>
+
     <podspec>
       <config>
         <source url="https://github.com/CocoaPods/Specs.git"/>
       </config>
       <pods>
-        <pod name="GoogleMaps" spec="7.4.0"/>
+        <pod name="GoogleMaps" spec="~> 10.0.0"/>
       </pods>
     </podspec>
-    
+
+<!--
     <hook type="before_platform_add" src="src/ios/check_sdk_version.js"/>
     <hook type="before_plugin_install" src="src/ios/check_sdk_version.js"/>
-
+-->
   </platform>
 
   <!-- browser -->
   <platform name="browser">
-    <info>
-      Official document https://github.com/mapsplugin/cordova-plugin-googlemaps-doc/blob/master/v2.3.0/README.md Please consider to buy a beer for us 🍺 https://github.com/mapsplugin/cordova-plugin-googlemaps#buy-us-a-beer
-    </info>
 
     <js-module name="googlemaps-cdv-plugin" src="www/plugin-loader-for-browser.js">
       <clobbers target="plugin.google.maps"/>
@@ -531,6 +545,12 @@
       <runs/>
     </js-module>
     <js-module name="PluginLocationService" src="src/browser/PluginLocationService.js">
+      <runs/>
+    </js-module>
+    <js-module name="PluginElevationService" src="src/browser/PluginElevationService.js">
+      <runs/>
+    </js-module>
+    <js-module name="PluginDirectionsService" src="src/browser/PluginDirectionsService.js">
       <runs/>
     </js-module>
     <js-module name="PluginGeocoder" src="src/browser/PluginGeocoder.js">
